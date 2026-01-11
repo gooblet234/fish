@@ -97,6 +97,11 @@ class DesktopPet(QMainWindow):
         self.boom = True
         self.physp = True
         self.dragging = False
+        playsound("crying.mp3")
+        self.movie.stop()
+        self.movie = QMovie("explosion.gif")
+        self.label.setMovie(self.movie)
+        self.movie.start()
         playsound("explosion.mp3")
         time.sleep(2)
         QApplication.quit()
@@ -130,5 +135,19 @@ class DesktopPet(QMainWindow):
             self.velx = -self.velx * self.bounce_dampening
             bounced = True
         
+        # need to fix i dont think this will work
         self.velx *= self.fric
         self.vy *= 0.99
+
+        if bounced and self.sound_ready:
+            speed = sqrt(self.velx**2 + self.vely**2)
+            volume = min(speed / self.termv, 1.0)
+            # Random sounds cuz the splat pmo
+            sound_file = random.choice(["blub.mp3","splat.mp3","splash.mp3"])
+            threading.Thread(target=lambda: playsound(sound_file), daemon=True).start()
+
+        # self moving may only work on windows idek
+        self.move(int(x + self.velx), int(y + self.vely))
+
+class PanicWindow(QMainWindow):
+    def __init w
