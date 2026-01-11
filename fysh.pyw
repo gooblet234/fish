@@ -179,12 +179,21 @@ class PanicWindow(QMainWindow):
         self.show()
 
     def closeEvent(self, event):
-        self.kill_fish()
+        self.superkill_fish()
         event.accept()
 
     def kill_fish(self):
         playsound("gunshot.mp3")
         time.sleep(1)
+        QApplication.quit()
+    
+    def superkill_fish(self):
+        playsound("gunshot.mp3")
+        time.sleep(1)
+        playsound("gunshot.mp3")
+        time.sleep(0.25)
+        playsound("sniper.mp3")
+        time.sleep(0.25)
         QApplication.quit()
 
 

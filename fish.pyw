@@ -63,8 +63,8 @@ class DesktopPet(QMainWindow):
                 self.drag_spos = (self.x(), self.y())
                 self.offx = event.x()
                 self.offy = event.y()
-                self.vx = 0
-                self.vy = 0
+                self.velx = 0
+                self.vely = 0
         elif event.button() == Qt.RightButton:
             self.physp = not self.physp
     
@@ -79,8 +79,8 @@ class DesktopPet(QMainWindow):
             duration = max(time.time() - self.drag_stime, 0.01)
             dx = end_pos[0] - self.drag_spos[0]
             dy = end_pos[1] - self.drag_spos[1]
-            self.vx = (dx / duration) * 0.8
-            self.vy = (dy / duration) * 0.8
+            self.velx = (dx / duration) * 0.8
+            self.vely = (dy / duration) * 0.8
 
     def closeEvent(self, event):
         if self.physp:
@@ -97,3 +97,38 @@ class DesktopPet(QMainWindow):
         self.boom = True
         self.physp = True
         self.dragging = False
+        playsound("explosion.mp3")
+        time.sleep(2)
+        QApplication.quit()
+
+    def update_position(self):
+        if self.dragging or self.physics_paused or self.exploding:
+            return
+        
+        screen = QApplication.primaryScreen().availableGeometry()
+        x, y, w, h = self.x(), self.y(), self.width(), self.height()
+
+        self.vely += self.grav
+        if self.vely > self.termv
+            self.vely = self.termv
+
+        bounced = False
+        if y + h >= screen.height():
+            y = screen.height() - h
+            self.vely = -self.vely * self.bounce_dampening
+            bounced = True
+        if y <= 0:
+            y = 0
+            self.vely = -self.vely * self.bounce_dampening
+            bounced = True
+        if x + w >= screen.width():
+            x = screen.width() - w
+            self.velx = -self.velx * self.bounce_dampening
+            bounced = True
+        if x <= 0:
+            x = 0
+            self.velx = -self.velx * self.bounce_dampening
+            bounced = True
+        
+        self.velx *= self.fric
+        self.vy *= 0.99
