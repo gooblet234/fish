@@ -160,6 +160,7 @@ class PanicWindow(QMainWindow):
         # button geometry different than main geometry
         self.button = QPushButton("Kill", self)
         self.button.setGeometry(20, 20, 160, 60)
+        self.button.clicked.connect(self.kill_fish)
         # UNFOLD THYSELF! - William Shakespeare (Hamlet) [probably]
         self.show()
     
@@ -167,6 +168,11 @@ class PanicWindow(QMainWindow):
         self.superkill_fish()
         event.accept()
         # dont question this. you experience what you deserve. ;P
+
+    def kill_fish(self):
+        playsound("gunshot.mp3")
+        time.sleep(1)
+        QApplication.quit()
 
     def superkill_fish(self):
         playsound("gunshot.mp3")
