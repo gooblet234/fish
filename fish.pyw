@@ -73,7 +73,7 @@ class DesktopPet(QMainWindow):
             self.move(event.globalX() - self.offx, event,globalY() - self.offy)
         
     def mouseReleaseEvent(self, event):
-        if event.button() == Qt.LeftButton and self.draggin:
+        if event.button() == Qt.LeftButton and self.dragging:
             self.dragging = False
             end_pos = (self.x(), self.y())
             duration = max(time.time() - self.drag_stime, 0.01)
