@@ -1,6 +1,8 @@
 import sys
 import time
 import threading
+import random
+from math import sqrt
 from PyQt5.QtWidgets import QApplication, QLabel, QMessageBox, QMainWindow, QPushButton
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QMovie
@@ -70,7 +72,7 @@ class DesktopPet(QMainWindow):
     
     def mouseMoveEvent(self, event):
         if self.dragging:
-            self.move(event.globalX() - self.offx, event,globalY() - self.offy)
+            self.move(event.globalX() - self.offx, event.globalY() - self.offy)
         
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton and self.dragging:
