@@ -106,15 +106,15 @@ class DesktopPet(QMainWindow):
         time.sleep(2)
         QApplication.quit()
 
-    def update_position(self):
-        if self.dragging or self.physics_paused or self.exploding:
+    def update_pos(self):
+        if self.dragging or self.physp or self.boom:
             return
         
         screen = QApplication.primaryScreen().availableGeometry()
         x, y, w, h = self.x(), self.y(), self.width(), self.height()
 
         self.vely += self.grav
-        if self.vely > self.termv
+        if self.vely > self.termv:
             self.vely = self.termv
 
         bounced = False
@@ -137,17 +137,46 @@ class DesktopPet(QMainWindow):
         
         # need to fix i dont think this will work
         self.velx *= self.fric
-        self.vy *= 0.99
+        self.vely *= 0.99
 
-        if bounced and self.sound_ready:
+        if bounced and self.sr:
             speed = sqrt(self.velx**2 + self.vely**2)
             volume = min(speed / self.termv, 1.0)
             # Random sounds cuz the splat pmo
-            sound_file = random.choice(["blub.mp3","splat.mp3","splash.mp3"])
+            sound_file = random.choice(["blub.mp3","splat.mp3","splash.mp3","augh.mp3"])
             threading.Thread(target=lambda: playsound(sound_file), daemon=True).start()
 
         # self moving may only work on windows idek
         self.move(int(x + self.velx), int(y + self.vely))
 
 class PanicWindow(QMainWindow):
-    def __init w
+    def __init__(self, pet):
+        super().__init__()
+        self.pet = pet
+        self.setWindowTitle("FISH PANIC!")
+        self.setGeometry(400, 100, 200, 100)
+        # button geometry different than main geometry
+        self.button = QPushButton("Kill", self)
+        self.button.setGeometry(20, 20, 160, 60)
+        # UNFOLD THYSELF! - William Shakespeare (Hamlet) [probably]
+        self.show()
+    
+    def closeEvent(self, event):
+        self.superkill_fish()
+        event.accept()
+        # dont question this. you experience what you deserve. ;P
+
+    def superkill_fish(self):
+        playsound("gunshot.mp3")
+        time.sleep(1)
+        playsound("gunshot.mp3")
+        time.sleep(0.25)
+        playsound("sniper.mp3")
+        time.sleep(0.25)
+        QApplication.quit()
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    pet = DesktopPet()
+    panic = PanicWindow(pet)
+    sys.exit(app.exec_())
