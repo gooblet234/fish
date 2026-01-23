@@ -25,18 +25,18 @@ class DesktopPet(QMainWindow):
         self.vely = 0
         self.grav = 0.7
         self.bounce_dampening = 0.7
-        self.fric = 0.99
+        self.fric = 0.99 # change this if you want to be a fun person. Personally, im not a fun person, so I won't. But.. I bet you are! :D
         self.termv = 12
 
         self.dragging = False
         self.drag_stime = 0
-        self.drag_spos = (0, 0)
-        self.offx = 0
-        self.offy = 0
+        self.drag_spos = (0, 0) 
+        self.offx = 0 # Short for offsetx
+        self.offy = 0 # Short for offsety
 
         self.physp = False
-        self.boom = False
-        self.sr = False
+        self.boom = False # Game breaking var btw, do not touch this. Literally a ticking time bomb. See what I did there? 
+        self.sr = False # short for Sound Ready
         self.splatq = []
         
         self.timer = QTimer()
